@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "366293935421",
+    "firebase_url": "https://splitbit-1d9c2.firebaseio.com",
+    "project_id": "splitbit-1d9c2",
+    "storage_bucket": "splitbit-1d9c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366293935421:android:3ebe729f9099590abd5154",
+        "android_client_info": {
+          "package_name": "app.splitbit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "366293935421-lh2qlvl1ak54b5qks8n3dn6nkoeg1gsg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "app.splitbit",
+            "certificate_hash": "da00fe5c349efe55e3d5fbf7ca22130c1593da16"
+          }
+        },
+        {
+          "client_id": "366293935421-rtqmu355f33nqaom9ql0c5kunvilio23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeDx15_vNddimr7RvjV2y571l9plvrUEQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "366293935421-rtqmu355f33nqaom9ql0c5kunvilio23.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
