@@ -10,6 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 import app.splitbit.GroupSplits.EventRoom;
@@ -49,11 +54,25 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Transaction transaction = arraylist_transactions.get(position);
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
+        final Transaction transaction = arraylist_transactions.get(position);
 
         //-- Getting User Info
-        ((TransactionViewHolder)holder).textView_transaction_title.setText(transaction.getPayer()+" Paid");
+        FirebaseDatabase.getInstance().getReference().child("splitbit/users/"+transaction.getPayer()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    String username = dataSnapshot.child("name").getValue().toString();
+                    ((TransactionViewHolder)holder).textView_transaction_title.setText(username+" Paid");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         ((TransactionViewHolder)holder).textView_transaction_body.setText("For - "+transaction.getDetail());
         ((TransactionViewHolder)holder).textView_transaction_amount.setText(transaction.getAmount()+" Rs.");
 
