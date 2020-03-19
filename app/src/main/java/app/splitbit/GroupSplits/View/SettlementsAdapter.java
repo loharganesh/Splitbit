@@ -63,7 +63,7 @@ public class SettlementsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     public void onDataChange(@NonNull DataSnapshot recrSnap) {
                         String payer_name = payerSnap.child("name").getValue().toString();
                         String recr_name = recrSnap.child("name").getValue().toString();
-                        ((SettlementViewHolder)holder).textView_event_name.setText(payer_name+"   ----------->   "+recr_name+"  :  "+settlement.getAmount());
+                        ((SettlementViewHolder)holder).textView_event_name.setText(payer_name+"   ---->   "+recr_name+"  :  "+settlement.getAmount()+" Rs.");
                     }
 
                     @Override

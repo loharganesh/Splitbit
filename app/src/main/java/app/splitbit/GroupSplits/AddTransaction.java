@@ -20,9 +20,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.FirebaseFunctionsException;
 import com.google.firebase.functions.HttpsCallableResult;
@@ -82,6 +86,10 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
         //Initiaizing Activity UI
         initActivityUI();
 
+        //Firebase
+        db = FirebaseDatabase.getInstance().getReference().child("splitbit");
+        auth = FirebaseAuth.getInstance();
+
         functions = FirebaseFunctions.getInstance();
 
         friends = new ArrayList<>();
@@ -107,12 +115,55 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
                 if( !TextUtils.isEmpty(edit_amount.getText().toString()) && !TextUtils.isEmpty(edit_amount.getText().toString()) && !PAYER_ID.equals("")){
                     progressBar.setVisibility(View.VISIBLE);
                     //--
-                    //Calling Function
-                    addTransaction(edit_amount.getText().toString(),edit_description.getText().toString())
+                    recordTransaction();
+
+                }else{
+                    Toast.makeText(AddTransaction.this, "All Inputs are mandatory", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    //-- Recording Transaction to house
+    private void recordTransaction(){
+        final String transaction_key = db.child("transactons").child(EVENT_ROOM_KEY).push().getKey();
+
+        //-- Getting Inputs for transaction
+        final long amount = Long.parseLong(edit_amount.getText().toString());
+        final String transaction_detail= edit_description.getText().toString();
+
+        //-- Object Containing Transaction data
+        HashMap<String,Object> transaction = new HashMap<>();
+        transaction.put("payer",PAYER_ID);
+        transaction.put("timestamp", ServerValue.TIMESTAMP);
+        transaction.put("entryby",auth.getCurrentUser().getUid());
+        transaction.put("detail",edit_description.getText().toString());
+        transaction.put("amount",Long.parseLong(edit_amount.getText().toString()));
+
+
+        //-- Transaction Routine
+        //-- 1) Validating all inputs
+        if( !TextUtils.isEmpty(transaction_detail) && amount < 100000 && !TextUtils.isEmpty(PAYER_ID)){
+
+            //-- 2)Adding Transaction
+            db.child("transactions").child(EVENT_ROOM_KEY).child(transaction_key).setValue(transaction)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        //Transaction Record Successfull
+                        //Call made to the post success routine
+
+                        addTransaction(""+amount,transaction_detail)
                             .addOnCompleteListener(new OnCompleteListener<String>() {
+
                                 @Override
                                 public void onComplete(@NonNull Task<String> task) {
+
                                     if (!task.isSuccessful()) {
+
+                                        //-- Post Transaction Routine Failed
+
                                         Exception e = task.getException();
                                         e.printStackTrace();
                                         if (e instanceof FirebaseFunctionsException) {
@@ -120,23 +171,34 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
                                             FirebaseFunctionsException.Code code = ffe.getCode();
                                             Object details = ffe.getDetails();
                                         }
-                                        // ...
                                         Toast.makeText(AddTransaction.this, "Opps! Something went wrong", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
                                     }else{
+
+                                        //-- Post Transaction Routine Successfull
+
                                         progressBar.setVisibility(View.GONE);
                                         onBackPressed();
                                     }
 
-                                    // ...
                                 }
                             });
 
-                }else{
-                    Toast.makeText(AddTransaction.this, "All Inputs are mandatory", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Transaction Record Failed
+                        //Show Error message to user
+
+                    }
+                });
+
+        }else {
+
+        }
     }
 
     private void showPayerChooser(){
@@ -176,7 +238,6 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
 
         HashMap<String,Object> data = new HashMap<>();
         data.put("amount",amt);
-        data.put("description",desc);
         data.put("payerid",PAYER_ID);
         data.put("eventkey",EVENT_ROOM_KEY);
 
