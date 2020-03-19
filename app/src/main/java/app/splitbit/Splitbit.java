@@ -30,6 +30,7 @@ import app.splitbit.Authentication.Signin;
 import app.splitbit.GroupSplits.CreateEvent;
 import app.splitbit.GroupSplits.Model.Event;
 import app.splitbit.GroupSplits.View.EventsAdapter;
+import app.splitbit.Profile.Profile;
 import app.splitbit.Settings.Settings;
 
 public class Splitbit extends AppCompatActivity {
@@ -148,6 +149,11 @@ public class Splitbit extends AppCompatActivity {
             case R.id.item_add_event:
                 startActivity(new Intent(Splitbit.this, CreateEvent.class));
                 return true;
+
+            case R.id.item_profile:
+                startActivity(new Intent(Splitbit.this, Profile.class));
+                return true;
+
 
         }
         return super.onOptionsItemSelected(item);

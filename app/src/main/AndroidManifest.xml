@@ -9,32 +9,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GroupSplits.AllTransactions"
-            android:screenOrientation="portrait"></activity>
-
-        <activity android:name=".GroupSplits.AddTransaction"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".GroupSplits.EventRoom"
-            android:screenOrientation="portrait"/>
-
+        <activity android:name=".Profile.Profile"></activity>
+        <activity
+            android:name=".GroupSplits.AllTransactions"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GroupSplits.AddTransaction"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GroupSplits.EventRoom"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".GroupSplits.CreateEvent"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".Settings.Settings"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Authentication.Signin"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".Splitbit"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".SplashScreen"
             android:screenOrientation="portrait">

@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:fontFamily="@font/rubik_medium"
-            android:text="Settements"
+            android:text="Settlements"
             android:textColor="@color/colorPrimaryDark" />
 
         <androidx.recyclerview.widget.RecyclerView
