@@ -208,6 +208,10 @@ public class EventRoom extends AppCompatActivity {
             case android.R.id.home:
                 super.onBackPressed();
                 return true;
+
+            case R.id.menuitem_allltransactions:
+                startActivity(new Intent(EventRoom.this,AllTransactions.class).putExtra("key",EVENT_ROOM_KEY));
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
