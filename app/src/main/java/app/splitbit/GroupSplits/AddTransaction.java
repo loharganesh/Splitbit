@@ -98,6 +98,7 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
         friends.add(new User("Sandeep Lohar","MbJQ4mg85ehzd6BhNdaEqkjvilg1","pic"));
         friends.add(new User("About !","bauy1G1NbRX5WXsL7hNCejozUkB2","pic"));
         friends.add(new User("Computer Tricks","fF5Pp2hYnKfkVquHOUhdZBptUYh1","pic"));
+        friends.add(new User("Ganesh Lohar","58HMrhsC33TjsdZef9WzMIoO4df2","pic"));
         //---
 
         friendsAdapter = new UserAdapter (AddTransaction.this, 0, friends);

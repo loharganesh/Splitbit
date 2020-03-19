@@ -41,6 +41,6 @@
         android:fontFamily="@font/rubik_medium"
         android:text="0 Rs."
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
 </LinearLayout>

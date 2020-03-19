@@ -43,7 +43,11 @@ public class AllTransactions extends AppCompatActivity {
         arraylist_transactions = new ArrayList<>();
         transactionsAdapter = new TransactionsAdapter(arraylist_transactions,AllTransactions.this);
 
-        recyclerView_transactions.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+
+        recyclerView_transactions.setLayoutManager(layoutManager);
         recyclerView_transactions.setAdapter(transactionsAdapter);
 
 

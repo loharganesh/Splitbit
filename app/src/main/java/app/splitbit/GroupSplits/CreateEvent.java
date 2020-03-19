@@ -83,12 +83,6 @@ public class CreateEvent extends AppCompatActivity implements AdapterView.OnItem
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initActivityUI();
 
-        //------ DEMO FRIENDS LIST
-        friends.add(new User("Sandeep Lohar","MbJQ4mg85ehzd6BhNdaEqkjvilg1","pic"));
-        friends.add(new User("About !","bauy1G1NbRX5WXsL7hNCejozUkB2","pic"));
-        friends.add(new User("Computer Tricks","fF5Pp2hYnKfkVquHOUhdZBptUYh1","pic"));
-        //---
-
         friendsAdapter = new UserAdapter (CreateEvent.this, 0, friends);
         membersAdapter = new UserAdapter (CreateEvent.this, 0, members);
 
@@ -100,6 +94,12 @@ public class CreateEvent extends AppCompatActivity implements AdapterView.OnItem
         auth = FirebaseAuth.getInstance();
         functions = FirebaseFunctions.getInstance();
 
+        //------ DEMO FRIENDS LIST
+        friends.add(new User("Sandeep Lohar","MbJQ4mg85ehzd6BhNdaEqkjvilg1","pic"));
+        friends.add(new User("About !","bauy1G1NbRX5WXsL7hNCejozUkB2","pic"));
+        friends.add(new User("Computer Tricks","fF5Pp2hYnKfkVquHOUhdZBptUYh1","pic"));
+        friends.add(new User("Ganesh Lohar","58HMrhsC33TjsdZef9WzMIoO4df2","pic"));
+        //---
 
         button_addmember.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +172,6 @@ public class CreateEvent extends AppCompatActivity implements AdapterView.OnItem
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        members.add(new User("Ganesh Lohar",auth.getCurrentUser().getUid(),"pic"));
                         membersAdapter.notifyDataSetChanged();
                     }
                 });
