@@ -7,7 +7,7 @@
         android:title="Add split event" />
     <item
         android:id="@+id/item_profile"
-        android:icon="@drawable/ic_menu_profile"
+        android:icon="@drawable/ic_user"
         android:title="Profile"
         app:showAsAction="always" />
     <item

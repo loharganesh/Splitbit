@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/imageview_useravatar"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 app:srcCompat="@drawable/useravatar" />
 
             <LinearLayout
@@ -50,7 +50,7 @@
                     android:id="@+id/button_editprofile"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="15dp"
                     android:background=" #eeeeee "
                     android:fontFamily="@font/rubik_medium"
                     android:stateListAnimator="@null"

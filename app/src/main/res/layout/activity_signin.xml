@@ -19,7 +19,7 @@
         android:layout_height="65dp"
         android:layout_marginLeft="25dp"
         android:layout_marginBottom="25dp"
-        app:srcCompat="@drawable/ic_splitbit_icon" />
+        app:srcCompat="@drawable/ic_splitbit" />
 
     <TextView
         android:id="@+id/textView"
