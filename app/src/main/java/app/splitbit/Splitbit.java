@@ -2,6 +2,7 @@ package app.splitbit;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -49,11 +50,18 @@ public class Splitbit extends AppCompatActivity {
 
 
     private void initActivityUI(){
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
         recyclerview_events = (RecyclerView) findViewById(R.id.recyclerview_groupevents);
         arraylist_events = new ArrayList<>();
         eventsAdapter = new EventsAdapter(arraylist_events,Splitbit.this);
 
-        recyclerview_events.setLayoutManager(new LinearLayoutManager(this));
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        //layoutManager.setReverseLayout(true);
+        //layoutManager.setStackFromEnd(true);
+        recyclerview_events.setLayoutManager(layoutManager);
         recyclerview_events.setAdapter(eventsAdapter);
 
     }

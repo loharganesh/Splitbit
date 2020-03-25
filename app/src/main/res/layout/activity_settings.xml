@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/rubik_medium"
             android:text="Mobile Number"
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/colorAccent"
             android:textSize="14sp" />
 
         <TextView
@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="Add or Change your mobile number"
+            android:textColor="@color/textColorSec"
             android:textSize="12sp" />
     </LinearLayout>
 

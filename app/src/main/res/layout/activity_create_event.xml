@@ -9,49 +9,94 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="25dp">
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/input_eventname"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Event Name e.g. Pizza Party, Festival"
-            android:inputType="textPersonName"
-            android:paddingBottom="15dp" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:fontFamily="@font/rubik_medium"
-            android:text="Add Members"
-            android:textColor="@color/colorPrimaryDark" />
-
-        <ListView
-            android:id="@+id/listview_members"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:overScrollMode="never" />
+            android:overScrollMode="never">
 
-        <Button
-            android:id="@+id/button_addmember"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="Add Member"
-            android:textAllCaps="false" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="25dp">
+
+                <EditText
+                    android:id="@+id/input_eventname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/textColorSec"
+                    android:ems="10"
+                    android:hint="Event Name e.g. Pizza Party, Festival"
+                    android:inputType="textPersonName"
+                    android:paddingBottom="15dp"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/textColorSec" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:fontFamily="@font/rubik_medium"
+                    android:text="Add Members"
+                    android:textColor="@color/colorAccent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/input_username_query"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/textColorSec"
+                        android:ems="10"
+                        android:hint="Enter username to search"
+                        android:inputType="textPersonName"
+                        android:paddingBottom="15dp"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@color/textColorSec" />
+
+                    <Button
+                        android:id="@+id/button_addmember"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/rubik_medium"
+                        android:text="Add Member"
+                        android:textAllCaps="false"
+                        android:textSize="12sp"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_selected_members"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:overScrollMode="never" />
+
+            </LinearLayout>
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="25dp"
+            android:paddingTop="10dp"
+            android:paddingRight="25dp"
+            android:paddingBottom="10dp">
 
             <Button
                 android:id="@+id/button_createevent"

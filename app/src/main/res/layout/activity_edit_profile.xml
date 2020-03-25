@@ -21,8 +21,11 @@
             android:ems="10"
             android:enabled="false"
             android:hint="Name"
+            android:backgroundTint="@color/textColorSec"
             android:inputType="textPersonName"
-            android:paddingBottom="15dp" />
+            android:paddingBottom="15dp"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/textColorSec" />
 
         <EditText
             android:id="@+id/edittext_ep_email"
@@ -32,8 +35,11 @@
             android:ems="10"
             android:enabled="false"
             android:hint="Email"
+            android:backgroundTint="@color/textColorSec"
             android:inputType="textEmailAddress"
-            android:paddingBottom="15dp" />
+            android:paddingBottom="15dp"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/textColorSec" />
 
         <EditText
             android:id="@+id/edittext_ep_username"
@@ -43,7 +49,10 @@
             android:ems="10"
             android:hint="Username"
             android:inputType="textPersonName"
-            android:paddingBottom="15dp" />
+            android:paddingBottom="15dp"
+            android:backgroundTint="@color/textColorSec"
+            android:textColor="@color/colorAccent"
+            android:textColorHint="@color/textColorSec" />
 
         <TextView
             android:id="@+id/textView_username_validation_status"
@@ -53,7 +62,7 @@
             android:layout_marginRight="5dp"
             android:gravity="right"
             android:text="This username is  already taken"
-            android:textColor="#ff4180"
+            android:textColor="@android:color/white"
             android:visibility="gone" />
 
         <Button

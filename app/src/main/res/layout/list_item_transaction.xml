@@ -22,16 +22,16 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/rubik_medium"
             android:text="Transaction Head"
-            android:textColor="@color/colorPrimaryDark" />
+            android:textColor="@color/colorAccent" />
 
         <TextView
             android:id="@+id/textview_transaction_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:fontFamily="@font/rubik_light"
+            android:fontFamily="@font/rubik"
             android:text="Transaction Body"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/textColorSec" />
     </LinearLayout>
 
     <TextView
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/rubik_medium"
         android:text="0 Rs."
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@android:color/white"
         android:textSize="18sp" />
 
 </LinearLayout>

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.FirebaseFunctionsException;
 import com.google.firebase.functions.HttpsCallableResult;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import app.splitbit.R;
 import app.splitbit.Splitbit;
@@ -43,7 +45,7 @@ public class Signin extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
 
     private ProgressBar progress_bar;
-    private Button button_signin;
+    private LinearLayout button_signin;
 
     private FirebaseFunctions functions;
 
@@ -71,15 +73,13 @@ public class Signin extends AppCompatActivity {
 
     //Initializing Activity UI
     private void initLayoutComponents(){
-        getSupportActionBar().setTitle("Sign in");
         progress_bar = (ProgressBar) findViewById(R.id.signing_in_indicator);
-        button_signin = (Button) findViewById(R.id.button_signin);
+        button_signin = (LinearLayout) findViewById(R.id.button_signin);
 
         button_signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 progress_bar.setVisibility(View.VISIBLE);
-                button_signin.setText("Signing in");
                 button_signin.setEnabled(false);
                 signIn();
             }
@@ -108,8 +108,7 @@ public class Signin extends AppCompatActivity {
 
             }catch (Exception e){
                 e.printStackTrace();
-                progress_bar.setVisibility(View.GONE);
-                button_signin.setText("Sign in");
+                progress_bar.setVisibility(View.INVISIBLE);
                 button_signin.setEnabled(true);
             }
         }else{
@@ -131,12 +130,11 @@ public class Signin extends AppCompatActivity {
 
                         //Sign in successfull, handle user info and UI here
                         if(auth.getCurrentUser() != null){
-                            updateDB("Write")
+                            updateDB(FirebaseInstanceId.getInstance().getToken().toString())
                                 .addOnCompleteListener(new OnCompleteListener<String>() {
                                     @Override
                                     public void onComplete(@NonNull Task<String> task) {
-                                        progress_bar.setVisibility(View.GONE);
-                                        button_signin.setText("Sign in");
+                                        progress_bar.setVisibility(View.INVISIBLE);
                                         button_signin.setEnabled(true);
                                         updateUI(auth.getCurrentUser());
                                         if (!task.isSuccessful()) {
@@ -158,8 +156,7 @@ public class Signin extends AppCompatActivity {
 
                     }else{
                         Log.d("Sign in status","Sign In Failed "+task.getException());
-                        progress_bar.setVisibility(View.GONE);
-                        button_signin.setText("Sign in");
+                        progress_bar.setVisibility(View.INVISIBLE);
                         button_signin.setEnabled(true);
                     }
                 }

@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,9 +25,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.FirebaseFunctionsException;
 import com.google.firebase.functions.HttpsCallableResult;
@@ -56,7 +60,7 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
 
 
     //ArrayLists
-    private ArrayList<User> friends = new ArrayList<>();
+    private ArrayList<User> members = new ArrayList<>();
 
     //ArrayAdapter
     private UserAdapter friendsAdapter;
@@ -92,16 +96,13 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
 
         functions = FirebaseFunctions.getInstance();
 
-        friends = new ArrayList<>();
+        members = new ArrayList<>();
 
-        //------ DEMO FRIENDS LIST
-        friends.add(new User("Sandeep Lohar","MbJQ4mg85ehzd6BhNdaEqkjvilg1","pic"));
-        friends.add(new User("About !","bauy1G1NbRX5WXsL7hNCejozUkB2","pic"));
-        friends.add(new User("Computer Tricks","fF5Pp2hYnKfkVquHOUhdZBptUYh1","pic"));
-        friends.add(new User("Ganesh Lohar","58HMrhsC33TjsdZef9WzMIoO4df2","pic"));
+        //------ MEMBERS LIST
+            initMembersList();
         //---
 
-        friendsAdapter = new UserAdapter (AddTransaction.this, 0, friends);
+        friendsAdapter = new UserAdapter (AddTransaction.this, 0, members);
 
         button_selectpayer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +122,45 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
                 }else{
                     Toast.makeText(AddTransaction.this, "All Inputs are mandatory", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+    }
+
+    //--
+    private void initMembersList(){
+        db.child("groupeventsmembers").child(EVENT_ROOM_KEY).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                        db.child("users").child(snapshot.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if(dataSnapshot.exists()){
+                                    User user = dataSnapshot.getValue(User.class);
+                                    members.add(user);
+                                    friendsAdapter.notifyDataSetChanged();
+                                    Log.d("", user.getName());
+                                }else{
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                    button_selectpayer.setEnabled(true);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
@@ -229,7 +269,7 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        User user = friends.get(position);
+        User user = members.get(position);
         PAYER_ID = user.getKey();
         button_selectpayer.setText(user.getName()+" is Paying (Tap to change)");
         dialog.cancel();

@@ -12,6 +12,7 @@
         android:id="@+id/textview_event_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/rubik"
         android:text="Event Name"
-        android:textColor="@color/colorPrimaryDark" />
+        android:textColor="@color/colorAccent" />
 </LinearLayout>

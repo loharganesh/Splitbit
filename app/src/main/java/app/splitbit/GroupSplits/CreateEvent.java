@@ -3,6 +3,8 @@ package app.splitbit.GroupSplits;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.text.TextUtilsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
@@ -17,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -27,9 +30,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.functions.FirebaseFunctions;
 import com.google.firebase.functions.FirebaseFunctionsException;
 import com.google.firebase.functions.HttpsCallableResult;
@@ -39,24 +45,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import app.splitbit.GroupSplits.Model.User;
+import app.splitbit.GroupSplits.View.SelectedMembersAdapter;
 import app.splitbit.GroupSplits.View.UserAdapter;
 import app.splitbit.R;
 
-public class CreateEvent extends AppCompatActivity implements AdapterView.OnItemClickListener{
+public class CreateEvent extends AppCompatActivity{
 
     private EditText input_eventname;
+    private EditText input_username_query;
     private Button button_addmember;
     private Button button_createevent;
-    private ListView members_listview;
+    private RecyclerView recyclerView_members;
+    private RecyclerView recyclerView_user;
     private ProgressBar progressBar;
 
     //Lists
     private ArrayList<User> members  = new ArrayList<>();
-    private ArrayList<User> friends = new ArrayList<>();
+    private HashMap<Object,String> member_meta = new HashMap<>();
 
     //ArrayAdapter
-    private UserAdapter friendsAdapter;
-    private UserAdapter membersAdapter;
+    private SelectedMembersAdapter membersAdapter;
 
     //Firebase
     private DatabaseReference db;
@@ -66,10 +74,20 @@ public class CreateEvent extends AppCompatActivity implements AdapterView.OnItem
 
 
     private void initActivityUI(){
+        getSupportActionBar().setTitle("Create Event");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         input_eventname = (EditText) findViewById(R.id.input_eventname);
         button_addmember = (Button) findViewById(R.id.button_addmember);
+        input_username_query = (EditText) findViewById(R.id.input_username_query);
         button_createevent = (Button) findViewById(R.id.button_createevent);
-        members_listview = (ListView) findViewById(R.id.listview_members);
+        recyclerView_members = (RecyclerView) findViewById(R.id.recyclerview_selected_members);
+
+        membersAdapter = new SelectedMembersAdapter(members,CreateEvent.this);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
+        recyclerView_members.setLayoutManager(linearLayoutManager);
+        recyclerView_members.setAdapter(membersAdapter);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar_creatingevent);
     }
@@ -83,28 +101,22 @@ public class CreateEvent extends AppCompatActivity implements AdapterView.OnItem
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initActivityUI();
 
-        friendsAdapter = new UserAdapter (CreateEvent.this, 0, friends);
-        membersAdapter = new UserAdapter (CreateEvent.this, 0, members);
-
-        members_listview.setAdapter(membersAdapter);
-
-
         db = FirebaseDatabase.getInstance().getReference().child("splitbit");
         splitgroupsDB = db.child("groupevents");
         auth = FirebaseAuth.getInstance();
         functions = FirebaseFunctions.getInstance();
 
-        //------ DEMO FRIENDS LIST
-        friends.add(new User("Sandeep Lohar","MbJQ4mg85ehzd6BhNdaEqkjvilg1","pic"));
-        friends.add(new User("About !","bauy1G1NbRX5WXsL7hNCejozUkB2","pic"));
-        friends.add(new User("Computer Tricks","fF5Pp2hYnKfkVquHOUhdZBptUYh1","pic"));
-        friends.add(new User("Ganesh Lohar","58HMrhsC33TjsdZef9WzMIoO4df2","pic"));
-        //---
+
+        members.add(new User(auth.getCurrentUser().getDisplayName(),auth.getCurrentUser().getUid(),auth.getCurrentUser().getPhotoUrl().toString()));
 
         button_addmember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showMemberChooser();
+                if(!TextUtils.isEmpty(input_username_query.getText().toString())){
+                    addMember();
+                }else{
+                    input_username_query.setError("Enter Username");
+                }
             }
         });
 
@@ -157,82 +169,37 @@ public class CreateEvent extends AppCompatActivity implements AdapterView.OnItem
 
     }
 
-    private void showMemberChooser(){
-        members.clear();
-        ListView lv = new ListView(CreateEvent.this);
-        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        lv.setOnItemClickListener(this);
-        lv.setAdapter(friendsAdapter);
-
-        AlertDialog.Builder bldr = new AlertDialog.Builder(this);
-        bldr.setCancelable(false);
-        bldr.setTitle("");
-        bldr.setView(lv);
-        bldr.setPositiveButton("Done",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        membersAdapter.notifyDataSetChanged();
-                    }
-                });
-        bldr.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        members.clear();
-                        membersAdapter.notifyDataSetChanged();
-                    }
-                });
-
-        final Dialog dlg = bldr.create();
-        dlg.show();
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        User member = (User) parent.getItemAtPosition(position);
-        members.add(member);
-    }
-
-
-    /*public void updateDB(){
-        progressBar.setVisibility(View.VISIBLE);
-        manageCreateEventUIControls(false);
-
-        final String key = splitgroupsDB.push().getKey();
-        HashMap<String,Object> event = new HashMap<>();
-        event.put("name",input_eventname.getText().toString());
-        event.put("key",key);
-        event.put("picture","pictureURL");
-        event.put("admin",auth.getCurrentUser().getUid());
-        event.put("timestamp", ServerValue.TIMESTAMP);
-
-        splitgroupsDB.child(key).setValue(event)
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-
-                   for(int i=0;i<members.size();i++){
-                       User member = members.get(i);
-                       if(member.getKey().equals(auth.getCurrentUser().getUid()))
-                           splitgroupsDB.child(key).child("members").child(member.getKey()).setValue("admin");
-                       else
-                           splitgroupsDB.child(key).child("members").child(member.getKey()).setValue("member");
-                   }
-                    progressBar.setVisibility(View.GONE);
-                    manageCreateEventUIControls(true);
-                }
-            })
-
-            .addOnFailureListener(new OnFailureListener() {
+    private void addMember(){
+        db.child("users").orderByChild("username").equalTo(input_username_query.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(CreateEvent.this, "Event Creation Failed! Try again", Toast.LENGTH_LONG).show();
-                progressBar.setVisibility(View.GONE);
-                manageCreateEventUIControls(true);
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                        User user = snapshot.getValue(User.class);
+                        if(user.getKey().equals(auth.getCurrentUser().getUid())){
+                            Toast.makeText(CreateEvent.this, "You're group admin", Toast.LENGTH_SHORT).show();
+                        }else if(member_meta.containsKey(user.getKey())){
+                            Toast.makeText(CreateEvent.this, user.getName()+" is already a group member", Toast.LENGTH_SHORT).show();
+                        }else{
+                            members.add(user);
+                            member_meta.put(user.getKey(),user.getName());
+                        }
+
+                    }
+                    //Toast.makeText(CreateEvent.this, dataSnapshot.child("name").getValue().toString(), Toast.LENGTH_SHORT).show();
+                    membersAdapter.notifyDataSetChanged();
+                }else{
+                    Toast.makeText(CreateEvent.this, "User not found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
-    }*/
+    }
+
 
     private Task<String> updateDB(String name) {
         // Create the arguments to the callable function.
