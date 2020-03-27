@@ -6,9 +6,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,7 +33,7 @@ import app.splitbit.GroupSplits.CreateEvent;
 import app.splitbit.GroupSplits.Model.Event;
 import app.splitbit.GroupSplits.View.EventsAdapter;
 import app.splitbit.Profile.Profile;
-import app.splitbit.Settings.Settings;
+import app.splitbit.GroupSplits.EventDetails;
 
 public class Splitbit extends AppCompatActivity {
 
@@ -150,8 +151,8 @@ public class Splitbit extends AppCompatActivity {
                 startActivity(new Intent(Splitbit.this, Signin.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                 return true;
 
-            case R.id.item_settings:
-                startActivity(new Intent(Splitbit.this, Settings.class));
+            case R.id.item_profile_layout:
+                startActivity(new Intent(Splitbit.this, EventDetails.class));
                 return true;
 
             case R.id.item_add_event:
@@ -167,4 +168,10 @@ public class Splitbit extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancelAll();
+    }
 }

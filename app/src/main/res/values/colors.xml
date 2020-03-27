@@ -9,4 +9,5 @@
     <color name="textColorSec">#8B8B8B</color>
     <color name="textColorPrimary">#ffffff</color>
     <color name="textHeadingColor">#ff4180</color>
+    <color name="transaprent">#00000000</color>
 </resources>

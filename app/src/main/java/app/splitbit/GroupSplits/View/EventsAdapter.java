@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import app.splitbit.GroupSplits.EventRoom;
 import app.splitbit.GroupSplits.Model.Event;
+import app.splitbit.GroupSplits.EventDetails;
 import app.splitbit.R;
 
 public class EventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
@@ -50,7 +50,7 @@ public class EventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((EventViewHolder)holder).itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, EventRoom.class).putExtra("key",event.getKey()).putExtra("admin",event.getEventadmin()));
+                context.startActivity(new Intent(context, EventDetails.class).putExtra("key",event.getKey()).putExtra("admin",event.getEventadmin()));
             }
         });
     }

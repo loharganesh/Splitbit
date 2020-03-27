@@ -2,17 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.splitbit">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:allowBackup="true"
         android:name=".Application.SplitbitApplication"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Profile.EditProfile"></activity>
+        <activity android:name=".GroupSplits.EventDetails"
+            android:theme="@style/SignInTheme"></activity>
+        <activity android:name=".Profile.EditProfile" />
         <activity android:name=".Profile.Profile" />
         <activity
             android:name=".GroupSplits.AllTransactions"
@@ -33,11 +35,11 @@
         <activity
             android:name=".Authentication.Signin"
             android:screenOrientation="portrait"
-            android:theme="@style/SignInTheme"/>
+            android:theme="@style/SignInTheme" />
         <activity
             android:name=".Splitbit"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeSecond"/>
+            android:theme="@style/AppThemeSecond" />
         <activity
             android:name=".SplashScreen"
             android:screenOrientation="portrait">
@@ -50,15 +52,12 @@
 
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-
-        <!--FCM-->
+            android:resource="@array/preloaded_fonts" /> <!-- FCM -->
         <service android:name=".Services.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".Services.MyFirebaseInstantIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
@@ -68,7 +67,6 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
-
     </application>
 
 </manifest>

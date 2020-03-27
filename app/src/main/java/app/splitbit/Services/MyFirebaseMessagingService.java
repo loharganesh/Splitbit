@@ -2,19 +2,16 @@ package app.splitbit.Services;
 
 import android.app.NotificationManager;
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Timer;
 
 import app.splitbit.R;
 

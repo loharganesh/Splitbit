@@ -3,10 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@drawable/ic_notification"
-        android:title="Notifications"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/item_add_event"
         android:title="Add split event" />
     <item
@@ -15,8 +11,8 @@
         android:title="Profile"
         app:showAsAction="always" />
     <item
-        android:id="@+id/item_settings"
-        android:title="Settings" ></item>
+        android:id="@+id/item_profile_layout"
+        android:title="Profile Layout"></item>
     <item android:title="Account">
         <menu>
             <item
