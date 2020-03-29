@@ -10,9 +10,6 @@
         android:icon="@drawable/ic_user"
         android:title="Profile"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/item_profile_layout"
-        android:title="Profile Layout"></item>
     <item android:title="Account">
         <menu>
             <item

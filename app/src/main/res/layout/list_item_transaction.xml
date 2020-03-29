@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
     android:gravity="center"
     android:orientation="horizontal"
     android:paddingLeft="25dp"
@@ -9,9 +12,17 @@
     android:paddingRight="25dp"
     android:paddingBottom="15dp">
 
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/ic_userplacehoder"
+        tools:ignore="VectorDrawableCompat" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_weight="1"
         android:orientation="vertical">
@@ -21,8 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/rubik_medium"
-            android:text="Transaction Head"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/textview_transaction_body"
@@ -30,17 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/rubik"
-            android:text="Transaction Body"
             android:textColor="@color/textColorSec" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textview_transaction_amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/rubik_medium"
-        android:text="0 Rs."
-        android:textColor="@android:color/white"
-        android:textSize="18sp" />
 
 </LinearLayout>

@@ -3,6 +3,7 @@ package app.splitbit.GroupSplits;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -24,7 +25,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import app.splitbit.GroupSplits.Model.Member;
 import app.splitbit.GroupSplits.View.EventRoomPagerAdapter;
+import app.splitbit.GroupSplits.View.MembersAdapter;
 import app.splitbit.R;
 
 public class EventDetails extends AppCompatActivity {
@@ -36,6 +42,7 @@ public class EventDetails extends AppCompatActivity {
     //--UI
     private TextView textView_eventname;
     private TextView textView_totalbill;
+
 
     private CollapsingToolbarLayout collapsingToolbarLayout;
 
@@ -52,6 +59,7 @@ public class EventDetails extends AppCompatActivity {
         //-- UI
         textView_eventname = (TextView) findViewById(R.id.textview_ed_eventname);
         textView_totalbill = (TextView) findViewById(R.id.textview_ed_totalbill);
+
 
         //-- Firebase
         db = FirebaseDatabase.getInstance().getReference().child("splitbit");
@@ -88,6 +96,9 @@ public class EventDetails extends AppCompatActivity {
 
         //-----------------------------------------------------------------------------------------------------------------------------
 
+        //-- Getting Event Info
+        getEventInfo();
+
 
         //-- Setting Up Tab layout -----------------------------------------------------------------------------------------------------
 
@@ -99,8 +110,13 @@ public class EventDetails extends AppCompatActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
+
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        final PagerAdapter adapter = new EventRoomPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        //-- Parameters for fragments
+        HashMap<String,Object> params = new HashMap<>();
+        params.put("key",EVENT_ID);
+        params.put("admin",ADMIN);
+        final PagerAdapter adapter = new EventRoomPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(),params);
         viewPager.setAdapter(adapter);
 
         /* the ViewPager requires a minimum of 1 as OffscreenPageLimit */
@@ -109,10 +125,24 @@ public class EventDetails extends AppCompatActivity {
         viewPager.setOffscreenPageLimit(limit);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
         //-------------------------------------------------------------------------------------------------------------------------------
-
-
-        getEventInfo();
 
     }
 

@@ -2,6 +2,7 @@ package app.splitbit.GroupSplits.View;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,12 +37,12 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         // each data item is just a string in this case
         private TextView textView_transaction_title;
         private TextView textView_transaction_body;
-        private TextView textView_transaction_amount;
+
         public TransactionViewHolder(View v) {
             super(v);
             textView_transaction_title = (TextView) v.findViewById(R.id.textview_transaction_title);
             textView_transaction_body = (TextView) v.findViewById(R.id.textview_transaction_body);
-            textView_transaction_amount = (TextView) v.findViewById(R.id.textview_transaction_amount);
+
         }
     }
 
@@ -63,7 +64,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     String username = dataSnapshot.child("name").getValue().toString();
-                    ((TransactionViewHolder)holder).textView_transaction_title.setText(username+" Paid");
+                    ((TransactionViewHolder)holder).textView_transaction_title.setText(Html.fromHtml(username+" Paid <font color='#ff4180'>"+transaction.getAmount()+" Rs."));
                 }
             }
 
@@ -74,7 +75,6 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         });
 
         ((TransactionViewHolder)holder).textView_transaction_body.setText("For - "+transaction.getDetail());
-        ((TransactionViewHolder)holder).textView_transaction_amount.setText(transaction.getAmount()+" Rs.");
 
     }
 

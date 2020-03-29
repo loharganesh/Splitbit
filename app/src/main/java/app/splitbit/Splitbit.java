@@ -33,7 +33,6 @@ import app.splitbit.GroupSplits.CreateEvent;
 import app.splitbit.GroupSplits.Model.Event;
 import app.splitbit.GroupSplits.View.EventsAdapter;
 import app.splitbit.Profile.Profile;
-import app.splitbit.GroupSplits.EventDetails;
 
 public class Splitbit extends AppCompatActivity {
 
@@ -151,9 +150,6 @@ public class Splitbit extends AppCompatActivity {
                 startActivity(new Intent(Splitbit.this, Signin.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                 return true;
 
-            case R.id.item_profile_layout:
-                startActivity(new Intent(Splitbit.this, EventDetails.class));
-                return true;
 
             case R.id.item_add_event:
                 startActivity(new Intent(Splitbit.this, CreateEvent.class));
