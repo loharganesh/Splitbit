@@ -42,7 +42,7 @@ import app.splitbit.GroupSplits.Model.User;
 import app.splitbit.GroupSplits.View.UserAdapter;
 import app.splitbit.R;
 
-public class AddTransaction extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class AddTransaction extends AppCompatActivity {
 
     //Firebase
     private DatabaseReference db;
@@ -52,31 +52,20 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
     //UI
     private EditText edit_amount;
     private EditText edit_description;
-    private Button button_selectpayer;
     private Button button_addtransaction;
     private ProgressBar progressBar;
 
-    private Dialog dialog;
-
-
-    //ArrayLists
-    private ArrayList<User> members = new ArrayList<>();
-
-    //ArrayAdapter
-    private UserAdapter friendsAdapter;
 
     //Strings
-    private String PAYER_ID;
     private String EVENT_ROOM_KEY;
 
     private void initActivityUI(){
-        getSupportActionBar().setTitle("Add Transaction");
+        getSupportActionBar().setTitle("");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         edit_amount = (EditText) findViewById(R.id.edit_amount);
         edit_description = (EditText) findViewById(R.id.edit_description);
         progressBar = (ProgressBar) findViewById(R.id.progressbar_adding_transaction);
-        button_selectpayer = (Button) findViewById(R.id.button_sellectpayer);
         button_addtransaction = (Button) findViewById(R.id.button_add_transaction);
     }
 
@@ -96,25 +85,11 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
 
         functions = FirebaseFunctions.getInstance();
 
-        members = new ArrayList<>();
-
-        //------ MEMBERS LIST
-            initMembersList();
-        //---
-
-        friendsAdapter = new UserAdapter (AddTransaction.this, 0, members);
-
-        button_selectpayer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPayerChooser();
-            }
-        });
 
         button_addtransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( !TextUtils.isEmpty(edit_amount.getText().toString()) && !TextUtils.isEmpty(edit_amount.getText().toString()) && !PAYER_ID.equals("")){
+                if( !TextUtils.isEmpty(edit_amount.getText().toString()) && !TextUtils.isEmpty(edit_amount.getText().toString())){
                     progressBar.setVisibility(View.VISIBLE);
                     //--
                     recordTransaction();
@@ -126,44 +101,6 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
         });
     }
 
-    //--
-    private void initMembersList(){
-        db.child("groupeventsmembers").child(EVENT_ROOM_KEY).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    for(DataSnapshot snapshot:dataSnapshot.getChildren()){
-                        db.child("users").child(snapshot.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if(dataSnapshot.exists()){
-                                    User user = dataSnapshot.getValue(User.class);
-                                    members.add(user);
-                                    friendsAdapter.notifyDataSetChanged();
-                                    Log.d("", user.getName());
-                                }else{
-
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-                    }
-                    button_selectpayer.setEnabled(true);
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
 
     //-- Recording Transaction to house
     private void recordTransaction(){
@@ -175,16 +112,16 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
 
         //-- Object Containing Transaction data
         HashMap<String,Object> transaction = new HashMap<>();
-        transaction.put("payer",PAYER_ID);
+        transaction.put("payer",auth.getCurrentUser().getUid());
+        transaction.put("payername",auth.getCurrentUser().getDisplayName());
         transaction.put("timestamp", ServerValue.TIMESTAMP);
-        transaction.put("entryby",auth.getCurrentUser().getUid());
         transaction.put("detail",edit_description.getText().toString());
         transaction.put("amount",Long.parseLong(edit_amount.getText().toString()));
 
 
         //-- Transaction Routine
         //-- 1) Validating all inputs
-        if( !TextUtils.isEmpty(transaction_detail) && amount < 100000 && !TextUtils.isEmpty(PAYER_ID)){
+        if( !TextUtils.isEmpty(transaction_detail) && amount < 100000){
 
             //-- 2)Adding Transaction
             db.child("transactions").child(EVENT_ROOM_KEY).child(transaction_key).setValue(transaction)
@@ -193,7 +130,7 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
                     public void onSuccess(Void aVoid) {
 
                         //Transaction Record Successfull
-                        //Call made to the post success routine
+                        //Call made to the post success routine to add paid amount
 
                         addTransaction(""+amount,transaction_detail)
                             .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -242,44 +179,12 @@ public class AddTransaction extends AppCompatActivity implements AdapterView.OnI
         }
     }
 
-    private void showPayerChooser(){
-        PAYER_ID = "";
-        ListView lv = new ListView(AddTransaction.this);
-        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        lv.setOnItemClickListener(this);
-        lv.setAdapter(friendsAdapter);
-
-        AlertDialog.Builder bldr = new AlertDialog.Builder(this);
-        bldr.setCancelable(false);
-        bldr.setTitle("");
-        bldr.setView(lv);
-
-        bldr.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        PAYER_ID = "";
-                        button_selectpayer.setText("Select the payer");
-                    }
-                });
-
-        dialog = bldr.create();
-        dialog.show();
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        User user = members.get(position);
-        PAYER_ID = user.getKey();
-        button_selectpayer.setText(user.getName()+" is Paying (Tap to change)");
-        dialog.cancel();
-    }
 
     private Task<String> addTransaction(String amt,String desc){
 
         HashMap<String,Object> data = new HashMap<>();
         data.put("amount",amt);
-        data.put("payerid",PAYER_ID);
+        data.put("payerid",auth.getCurrentUser().getUid());
         data.put("eventkey",EVENT_ROOM_KEY);
 
         return functions

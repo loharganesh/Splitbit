@@ -49,7 +49,7 @@ public class SelectedMembersAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         if(user.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
             ((SelectedMembersViewHolder)holder).textView_username.setText("You");
         }else{
-            ((SelectedMembersViewHolder)holder).textView_username.setText(user.getName());
+            ((SelectedMembersViewHolder)holder).textView_username.setText(user.getUsername());
         }
 
     }

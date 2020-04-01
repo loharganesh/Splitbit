@@ -12,48 +12,60 @@
         android:orientation="vertical"
         android:padding="25dp">
 
-        <EditText
-            android:id="@+id/edit_amount"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Amount"
-            android:inputType="number"
-            android:paddingBottom="15dp"
-            android:backgroundTint="@color/textColorSec"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/textColorSec" />
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik_medium"
+                android:text="You are paying Rs. "
+                android:textColor="@color/textColorSec"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/edit_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:backgroundTint="@color/textColorSec"
+                android:ems="10"
+                android:fontFamily="@font/rubik_medium"
+                android:hint="0"
+                android:inputType="number"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/textColorSec"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/edit_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:ems="10"
-            android:hint="Description"
-            android:inputType="textPersonName"
-            android:paddingBottom="15dp"
+            android:layout_marginTop="25dp"
+            android:background="@color/transaprent"
             android:backgroundTint="@color/textColorSec"
+            android:ems="10"
+            android:hint="Paying for ?"
+            android:inputType="textPersonName"
             android:textColor="@color/colorAccent"
-            android:textColorHint="@color/textColorSec" />
-
-        <Button
-            android:id="@+id/button_sellectpayer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:enabled="false"
-            android:text="Select the payer"
-            android:textAllCaps="false" />
+            android:textColorHint="@color/textColorSec"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/button_add_transaction"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/button_primary"
             android:fontFamily="@font/rubik_medium"
             android:text="Add Transaction"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
 
         <ProgressBar
             android:id="@+id/progressbar_adding_transaction"

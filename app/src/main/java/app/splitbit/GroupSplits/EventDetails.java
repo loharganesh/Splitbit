@@ -7,11 +7,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.TextView;
@@ -185,6 +187,10 @@ public class EventDetails extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void addNewTransaction(View view){
+        startActivity(new Intent(EventDetails.this,AddTransaction.class).putExtra("key",EVENT_ID));
     }
 
     @Override

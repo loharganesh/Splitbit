@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import app.splitbit.GroupSplits.AddTransaction;
 import app.splitbit.GroupSplits.EventDetails;
 import app.splitbit.GroupSplits.Model.Event;
 import app.splitbit.GroupSplits.Model.Member;
@@ -62,6 +63,13 @@ public class MembersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final Member member = arraylist_members.get(position);
         ((MemberViewHolder)holder).textView_amount.setText(member.getAmount()+" Rs.");
         ((MemberViewHolder)holder).textView_username.setText(member.getName());
+
+        ((MemberViewHolder)holder).itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //context.startActivity(new Intent(context, AddTransaction.class).putExtra("key",));
+            }
+        });
 
 
     }

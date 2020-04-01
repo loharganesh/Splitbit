@@ -20,6 +20,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:orientation="vertical"
                 android:padding="25dp">
 
@@ -27,13 +28,17 @@
                     android:id="@+id/input_eventname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
                     android:backgroundTint="@color/textColorSec"
                     android:ems="10"
-                    android:hint="Event Name e.g. Pizza Party, Festival"
-                    android:inputType="textPersonName"
-                    android:paddingBottom="15dp"
+                    android:hint="Name your event e.g. Pizza Part, Birthday Plan."
+                    android:inputType="textPersonName|textImeMultiLine"
+                    android:lineSpacingExtra="10sp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:textColor="@android:color/white"
-                    android:textColorHint="@color/textColorSec" />
+                    android:textColorHint="@color/textColorSec"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/textView4"
@@ -41,13 +46,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:fontFamily="@font/rubik_medium"
-                    android:text="Add Members"
+                    android:text="Participants"
                     android:textColor="@color/colorAccent" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="25dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -57,22 +63,23 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="15dp"
                         android:layout_weight="1"
+                        android:background="@color/transaprent"
                         android:backgroundTint="@color/textColorSec"
                         android:ems="10"
-                        android:hint="Enter username to search"
+                        android:hint="Enter username and add"
                         android:inputType="textPersonName"
-                        android:paddingBottom="15dp"
                         android:textColor="@android:color/white"
                         android:textColorHint="@color/textColorSec" />
 
-                    <Button
+                    <TextView
                         android:id="@+id/button_addmember"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/rubik_medium"
-                        android:text="Add Member"
+                        android:text="Add"
                         android:textAllCaps="false"
-                        android:textSize="12sp"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14sp"
                         android:visibility="visible" />
                 </LinearLayout>
 
@@ -80,8 +87,9 @@
                     android:id="@+id/recyclerview_selected_members"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="25dp"
                     android:layout_weight="1"
+                    android:clipToPadding="false"
                     android:overScrollMode="never" />
 
             </LinearLayout>
@@ -103,8 +111,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Create Event"
-                android:textAllCaps="false" />
+                android:background="@drawable/button_primary"
+                android:fontFamily="@font/rubik_medium"
+                android:text="Save and Create"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
 
             <ProgressBar
                 android:id="@+id/progressBar_creatingevent"

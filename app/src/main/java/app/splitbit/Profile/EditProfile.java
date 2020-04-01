@@ -123,6 +123,13 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
+        button_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
     }
 
     private void vaidateUsername(){

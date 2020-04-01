@@ -16,14 +16,13 @@
         android:id="@+id/imageView7"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:srcCompat="@drawable/ic_userplacehoder"
+        app:srcCompat="@drawable/ic_userplaceholder"
         tools:ignore="VectorDrawableCompat" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="25dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -31,7 +30,7 @@
             android:id="@+id/textview_transaction_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/rubik_medium"
+            android:fontFamily="@font/rubik"
             android:textColor="@android:color/white" />
 
         <TextView
@@ -40,7 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/rubik"
-            android:textColor="@color/textColorSec" />
+            android:textColor="@color/textColorSec"
+            android:textSize="14sp" />
     </LinearLayout>
 
 </LinearLayout>

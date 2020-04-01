@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,10 +37,15 @@ public class SettlementsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public static class SettlementViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        private TextView textView_event_name;
+        private TextView textView_sender;
+        private TextView textView_reciever;
+        private ImageView imageView_recieverPhoto;
+
         public SettlementViewHolder(View v) {
             super(v);
-            textView_event_name = (TextView) v.findViewById(R.id.textview_settlement);
+            textView_sender = (TextView) v.findViewById(R.id.textview_liset_sender);
+            textView_reciever = (TextView) v.findViewById(R.id.textview_liset_reciever);
+
         }
     }
 
@@ -63,7 +69,9 @@ public class SettlementsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     public void onDataChange(@NonNull DataSnapshot recrSnap) {
                         String payer_name = payerSnap.child("name").getValue().toString();
                         String recr_name = recrSnap.child("name").getValue().toString();
-                        ((SettlementViewHolder)holder).textView_event_name.setText(payer_name+"   -->   "+recr_name+"  :  "+settlement.getAmount()+" Rs.");
+
+                        ((SettlementViewHolder)holder).textView_sender.setText(payer_name+" have to pay");
+                        ((SettlementViewHolder)holder).textView_reciever.setText(settlement.getAmount()+" Rs. to "+recr_name);
                     }
 
                     @Override

@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
@@ -53,7 +54,7 @@ public class CreateEvent extends AppCompatActivity{
 
     private EditText input_eventname;
     private EditText input_username_query;
-    private Button button_addmember;
+    private TextView button_addmember;
     private Button button_createevent;
     private RecyclerView recyclerView_members;
     private RecyclerView recyclerView_user;
@@ -78,7 +79,7 @@ public class CreateEvent extends AppCompatActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         input_eventname = (EditText) findViewById(R.id.input_eventname);
-        button_addmember = (Button) findViewById(R.id.button_addmember);
+        button_addmember = (TextView) findViewById(R.id.button_addmember);
         input_username_query = (EditText) findViewById(R.id.input_username_query);
         button_createevent = (Button) findViewById(R.id.button_createevent);
         recyclerView_members = (RecyclerView) findViewById(R.id.recyclerview_selected_members);
@@ -107,7 +108,7 @@ public class CreateEvent extends AppCompatActivity{
         functions = FirebaseFunctions.getInstance();
 
 
-        members.add(new User(auth.getCurrentUser().getDisplayName(),auth.getCurrentUser().getUid(),auth.getCurrentUser().getPhotoUrl().toString()));
+        members.add(new User(auth.getCurrentUser().getDisplayName(),auth.getCurrentUser().getUid(),auth.getCurrentUser().getPhotoUrl().toString(),""));
 
         button_addmember.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,8 +147,8 @@ public class CreateEvent extends AppCompatActivity{
                                 }else{
                                     progressBar.setVisibility(View.GONE);
                                     manageCreateEventUIControls(true);
-                                    startActivity(new Intent(CreateEvent.this,EventRoom.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY));
-                                    finish();
+                                    //startActivity(new Intent(CreateEvent.this,EventRoom.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY));
+                                    onBackPressed();
                                 }
 
                                 // ...

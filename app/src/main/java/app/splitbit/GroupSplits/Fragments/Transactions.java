@@ -44,7 +44,6 @@ public class Transactions extends Fragment {
     private RecyclerView recyclerView_transactions;
     private ArrayList<Transaction> arraylist_transactions;
     private TransactionsAdapter transactionsAdapter;
-    private LinearLayout layout_no_transaction;
 
     //-- Firebase
     private DatabaseReference db;
@@ -75,7 +74,6 @@ public class Transactions extends Fragment {
 
         //-- UI
 
-        layout_no_transaction = (LinearLayout) view.findViewById(R.id.linearlayout_no_transactions);
 
         recyclerView_transactions = (RecyclerView) view.findViewById(R.id.recyclerview_transactions);
         recyclerView_transactions.setNestedScrollingEnabled(false);
@@ -105,15 +103,12 @@ public class Transactions extends Fragment {
                 //--
 
                 if(dataSnapshot.hasChildren()){
-                    layout_no_transaction.setVisibility(View.GONE);
                     if(!transaction_map.containsKey(dataSnapshot.getKey())){
                         Transaction transaction = dataSnapshot.getValue(Transaction.class);
                         arraylist_transactions.add(transaction);
                         transaction_map.put(dataSnapshot.getKey(),arraylist_transactions.indexOf(transaction));
                         transactionsAdapter.notifyItemInserted(arraylist_transactions.indexOf(transaction));
                     }
-                }else{
-                    layout_no_transaction.setVisibility(View.VISIBLE);
                 }
 
 
@@ -139,15 +134,6 @@ public class Transactions extends Fragment {
 
             }
         });
-    }
-
-    private void updateMap(){
-        transaction_map.clear();
-
-    }
-
-    private void noTransactionView(int visibility){
-        layout_no_transaction.setVisibility(visibility);
     }
 
 
