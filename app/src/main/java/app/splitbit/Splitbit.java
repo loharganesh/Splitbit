@@ -1,6 +1,7 @@
 package app.splitbit;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,9 +11,12 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -20,6 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,28 +45,37 @@ public class Splitbit extends AppCompatActivity {
     private RecyclerView recyclerview_events;
     private ArrayList<Event> arraylist_events;
     private EventsAdapter eventsAdapter;
+    private LinearLayout loadingEventsLayout;
+    private LinearLayout noTransactionLayout;
+
+    private LinearLayoutManager layoutManager;
 
     //Firebase
     private DatabaseReference db;
     private DatabaseReference eventsRef;
+    private ChildEventListener childEventListener;
 
     private FirebaseAuth auth;
     private GoogleSignInClient mGoogleSignInClient;
+    private int mEvents = 13;
 
 
     private void initActivityUI(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
+
+        loadingEventsLayout = (LinearLayout) findViewById(R.id.loadingEventsLayout);
+        noTransactionLayout = (LinearLayout) findViewById(R.id.asplit_layout_notransaction);
+
         recyclerview_events = (RecyclerView) findViewById(R.id.recyclerview_groupevents);
+        recyclerview_events.setNestedScrollingEnabled(false);
         arraylist_events = new ArrayList<>();
         eventsAdapter = new EventsAdapter(arraylist_events,Splitbit.this);
-
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        //layoutManager.setReverseLayout(true);
-        //layoutManager.setStackFromEnd(true);
+        layoutManager = new LinearLayoutManager(this);
         recyclerview_events.setLayoutManager(layoutManager);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
         recyclerview_events.setAdapter(eventsAdapter);
 
     }
@@ -86,30 +100,47 @@ public class Splitbit extends AppCompatActivity {
         eventsRef = db.child("users").child(auth.getCurrentUser().getUid()).child("groupevents");
 
         initActivityUI();
-        loadEventsList();
+        initEventsList();
+
+
 
     }
 
-    private void loadEventsList(){
-        eventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void initEventsList(){
+
+        eventsRef.limitToFirst(mEvents).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    String key = snapshot.getKey();
-                    db.child("groupevents").child(key).orderByChild("timestamp").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Event event = dataSnapshot.getValue(Event.class);
-                            arraylist_events.add(event);
-                            eventsAdapter.notifyDataSetChanged();
-                        }
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                        //-- Got the added child
+                        db.child("groupevents").child(snapshot.getKey()).orderByChild("timestamp").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                Event event = dataSnapshot.getValue(Event.class);
+                                if(!arraylist_events.contains(event)){
+                                    arraylist_events.add(event);
+                                }
+                                eventsAdapter.notifyDataSetChanged();
+                                loadingEventsLayout.setVisibility(View.GONE);
+                                noTransactionLayout.setVisibility(View.GONE);
+                            }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                loadingEventsLayout.setVisibility(View.GONE);
+                                noTransactionLayout.setVisibility(View.GONE);
+                            }
+                        });
+                    }
+                }else{
+                    loadingEventsLayout.setVisibility(View.GONE);
+                    noTransactionLayout.setVisibility(View.VISIBLE);
                 }
+
+
+
+
             }
 
             @Override
@@ -117,6 +148,10 @@ public class Splitbit extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void createSplitEvent(View view){
+        startActivity(new Intent(Splitbit.this, CreateEvent.class));
     }
 
     @Override

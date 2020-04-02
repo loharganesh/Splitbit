@@ -1,7 +1,6 @@
 package app.splitbit.GroupSplits.View;
 
 import android.content.Context;
-import android.content.Intent;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +16,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
-import app.splitbit.GroupSplits.EventRoom;
-import app.splitbit.GroupSplits.Model.Event;
 import app.splitbit.GroupSplits.Model.Transaction;
 import app.splitbit.R;
 
@@ -42,7 +38,6 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(v);
             textView_transaction_title = (TextView) v.findViewById(R.id.textview_transaction_title);
             textView_transaction_body = (TextView) v.findViewById(R.id.textview_transaction_body);
-
         }
     }
 
@@ -82,4 +77,5 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public int getItemCount() {
         return arraylist_transactions.size();
     }
+
 }

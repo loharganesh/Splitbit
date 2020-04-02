@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,10 +31,11 @@ import app.splitbit.R;
 
 public class Settlements extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
-
+    //-- UI
     private RecyclerView recyclerview_settlements;
     private ArrayList<Settlement> arraylist_settlements;
     private SettlementsAdapter settlementsAdapter;
+    private LinearLayout noSettements;
 
     //-- Strings
     private String EVENT_ROOM_KEY;
@@ -54,6 +56,9 @@ public class Settlements extends Fragment implements SwipeRefreshLayout.OnRefres
         db = FirebaseDatabase.getInstance().getReference().child("splitbit");
 
         //-- UI
+
+        noSettements = (LinearLayout) view.findViewById(R.id.noSettlementsLayout);
+
         recyclerview_settlements = (RecyclerView) view.findViewById(R.id.recycerview_settlements);
         arraylist_settlements = new ArrayList<>();
         settlementsAdapter = new SettlementsAdapter(arraylist_settlements, Settlements.this.getContext());
@@ -76,8 +81,6 @@ public class Settlements extends Fragment implements SwipeRefreshLayout.OnRefres
 
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                        //Log.d("   Member",""+snapshot.getKey());
-
                         final Settlement settlement = new Settlement();
 
                         for(final DataSnapshot member : snapshot.getChildren()) {
@@ -95,7 +98,12 @@ public class Settlements extends Fragment implements SwipeRefreshLayout.OnRefres
                             arraylist_settlements.add(settlement);
                         }
                         settlementsAdapter.notifyDataSetChanged();
+                        if(arraylist_settlements.size() > 0){
+                            noSettements.setVisibility(View.GONE);
+                        }
                     }
+                }else{
+                    noSettements.setVisibility(View.VISIBLE);
                 }
             }
 

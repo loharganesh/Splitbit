@@ -61,7 +61,12 @@ public class MembersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
 
         final Member member = arraylist_members.get(position);
-        ((MemberViewHolder)holder).textView_amount.setText(member.getAmount()+" Rs.");
+        if(member.getAmount() == 0){
+            ((MemberViewHolder)holder).textView_amount.setText("None");
+        }else{
+            ((MemberViewHolder)holder).textView_amount.setText(member.getAmount()+" Rs.");
+        }
+
         ((MemberViewHolder)holder).textView_username.setText(member.getName());
 
         ((MemberViewHolder)holder).itemView.setOnClickListener(new View.OnClickListener() {

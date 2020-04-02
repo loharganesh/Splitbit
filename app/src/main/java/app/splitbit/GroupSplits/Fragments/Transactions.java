@@ -44,6 +44,7 @@ public class Transactions extends Fragment {
     private RecyclerView recyclerView_transactions;
     private ArrayList<Transaction> arraylist_transactions;
     private TransactionsAdapter transactionsAdapter;
+    private LinearLayout noTransactions;
 
     //-- Firebase
     private DatabaseReference db;
@@ -73,7 +74,7 @@ public class Transactions extends Fragment {
         auth = FirebaseAuth.getInstance();
 
         //-- UI
-
+        noTransactions = (LinearLayout) view.findViewById(R.id.noTransactionsLayout);
 
         recyclerView_transactions = (RecyclerView) view.findViewById(R.id.recyclerview_transactions);
         recyclerView_transactions.setNestedScrollingEnabled(false);
@@ -101,14 +102,12 @@ public class Transactions extends Fragment {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                 //--
-
-                if(dataSnapshot.hasChildren()){
-                    if(!transaction_map.containsKey(dataSnapshot.getKey())){
-                        Transaction transaction = dataSnapshot.getValue(Transaction.class);
-                        arraylist_transactions.add(transaction);
-                        transaction_map.put(dataSnapshot.getKey(),arraylist_transactions.indexOf(transaction));
-                        transactionsAdapter.notifyItemInserted(arraylist_transactions.indexOf(transaction));
-                    }
+                noTransactions.setVisibility(View.GONE);
+                if(!transaction_map.containsKey(dataSnapshot.getKey())){
+                    Transaction transaction = dataSnapshot.getValue(Transaction.class);
+                    arraylist_transactions.add(transaction);
+                    transaction_map.put(dataSnapshot.getKey(),arraylist_transactions.indexOf(transaction));
+                    transactionsAdapter.notifyItemInserted(arraylist_transactions.indexOf(transaction));
                 }
 
 

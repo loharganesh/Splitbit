@@ -184,6 +184,7 @@ public class CreateEvent extends AppCompatActivity{
                         }else{
                             members.add(user);
                             member_meta.put(user.getKey(),user.getName());
+                            input_username_query.setText("");
                         }
 
                     }
