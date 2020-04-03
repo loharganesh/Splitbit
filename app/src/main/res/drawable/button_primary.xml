@@ -4,7 +4,7 @@
     <item android:state_enabled="false">
         <shape>
             <corners
-                android:radius="0dp"
+                android:radius="200dp"
                 />
             <gradient
                 android:centerX="35%"
@@ -25,13 +25,13 @@
     <item android:state_enabled="true">
         <shape>
             <corners
-                android:radius="0dp"
+                android:radius="200dp"
                 />
             <gradient
                 android:centerX="35%"
-                android:centerColor="#e72364"
-                android:startColor="#e72364"
-                android:endColor="#e72364"
+                android:centerColor="#ff4180"
+                android:startColor="#ff4180"
+                android:endColor="#ff4180"
                 android:type="linear"
                 />
             <padding

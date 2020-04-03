@@ -39,7 +39,9 @@ public class Members extends Fragment {
 
     //-- Firebase
     private DatabaseReference db;
+    private DatabaseReference memberRef;
     private FirebaseAuth auth;
+    private ChildEventListener childEventListener;
 
     //-- UI
     private RecyclerView recyclerView_memebers;
@@ -62,6 +64,7 @@ public class Members extends Fragment {
 
         //-- Firebase
         db = FirebaseDatabase.getInstance().getReference("splitbit");
+        memberRef = db.child("payers").child(EVENT_ID);
         auth = FirebaseAuth.getInstance();
 
         //-- UI
@@ -128,7 +131,7 @@ public class Members extends Fragment {
     }
 
     private void addMemberListener(){
-        db.child("payers").child(EVENT_ID).addChildEventListener(new ChildEventListener() {
+        childEventListener = memberRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Log.d("  Function Status : "," OnChildAdded()");
@@ -161,4 +164,15 @@ public class Members extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        memberRef.addChildEventListener(childEventListener);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        memberRef.removeEventListener(childEventListener);
+    }
 }

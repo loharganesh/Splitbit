@@ -38,6 +38,7 @@ public class Transactions extends Fragment {
 
     //-- Strings
     private String EVENT_ROOM_ID;
+    private String ADMIN;
 
 
     //-- UI
@@ -49,14 +50,9 @@ public class Transactions extends Fragment {
     //-- Firebase
     private DatabaseReference db;
     private DatabaseReference transactionsRef;
-
     private FirebaseAuth auth;
-
     private ChildEventListener childEventListener;
-    private String ADMIN;
 
-    //-- Map
-    private HashMap<String,Object> transaction_map = new HashMap<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,10 +99,11 @@ public class Transactions extends Fragment {
 
                 //--
                 noTransactions.setVisibility(View.GONE);
-                if(!transaction_map.containsKey(dataSnapshot.getKey())){
-                    Transaction transaction = dataSnapshot.getValue(Transaction.class);
+                Transaction transaction = dataSnapshot.getValue(Transaction.class);
+                transaction.setKey(dataSnapshot.getKey());
+
+                if(!arraylist_transactions.contains(transaction)){
                     arraylist_transactions.add(transaction);
-                    transaction_map.put(dataSnapshot.getKey(),arraylist_transactions.indexOf(transaction));
                     transactionsAdapter.notifyItemInserted(arraylist_transactions.indexOf(transaction));
                 }
 
@@ -120,7 +117,14 @@ public class Transactions extends Fragment {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Log.d("","    Child Removed  :  "+dataSnapshot.getValue().toString());
+                Transaction transaction = dataSnapshot.getValue(Transaction.class);
+                transaction.setKey(dataSnapshot.getKey());
+                arraylist_transactions.remove(transaction);
+                transactionsAdapter.notifyDataSetChanged();
+                if(arraylist_transactions.size() == 0){
+                    noTransactions.setVisibility(View.VISIBLE);
+                }
+
             }
 
             @Override

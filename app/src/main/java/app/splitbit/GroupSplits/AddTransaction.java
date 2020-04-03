@@ -104,6 +104,7 @@ public class AddTransaction extends AppCompatActivity {
 
     //-- Recording Transaction to house
     private void recordTransaction(){
+        button_addtransaction.setEnabled(false);
         final String transaction_key = db.child("transactons").child(EVENT_ROOM_KEY).push().getKey();
 
         //-- Getting Inputs for transaction
@@ -151,10 +152,10 @@ public class AddTransaction extends AppCompatActivity {
                                         }
                                         Toast.makeText(AddTransaction.this, "Opps! Something went wrong", Toast.LENGTH_SHORT).show();
                                         progressBar.setVisibility(View.GONE);
+                                        button_addtransaction.setEnabled(true);
                                     }else{
 
                                         //-- Post Transaction Routine Successfull
-
                                         progressBar.setVisibility(View.GONE);
                                         onBackPressed();
                                     }
@@ -170,6 +171,8 @@ public class AddTransaction extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         //Transaction Record Failed
                         //Show Error message to user
+                        button_addtransaction.setEnabled(true);
+                        button_addtransaction.setText("Retry");
 
                     }
                 });

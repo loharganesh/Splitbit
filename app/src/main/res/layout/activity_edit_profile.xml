@@ -6,91 +6,98 @@
     android:layout_height="match_parent"
     tools:context=".Profile.EditProfile">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:orientation="vertical"
-        android:padding="25dp">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/edittext_ep_name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:ems="10"
-            android:enabled="false"
-            android:hint="Name"
-            android:inputType="textPersonName"
-            android:paddingBottom="15dp"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/textColorSec" />
+            android:animateLayoutChanges="true"
+            android:orientation="vertical"
+            android:padding="25dp">
 
-        <EditText
-            android:id="@+id/edittext_ep_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:ems="10"
-            android:enabled="false"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:paddingBottom="15dp"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/textColorSec" />
+            <EditText
+                android:id="@+id/edittext_ep_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:ems="10"
+                android:enabled="false"
+                android:hint="Name"
+                android:inputType="textPersonName"
+                android:paddingBottom="15dp"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/textColorSec" />
 
-        <EditText
-            android:id="@+id/edittext_ep_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:ems="10"
-            android:hint="Username"
-            android:inputType="textPersonName"
-            android:paddingBottom="15dp"
-            android:textColor="@color/colorAccent"
-            android:textColorHint="@color/textColorSec" />
+            <EditText
+                android:id="@+id/edittext_ep_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:ems="10"
+                android:enabled="false"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:paddingBottom="15dp"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/textColorSec" />
 
-        <TextView
-            android:id="@+id/textView_username_validation_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:gravity="right"
-            android:text="This username is  already taken"
-            android:textColor="@android:color/white"
-            android:visibility="gone" />
+            <EditText
+                android:id="@+id/edittext_ep_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:digits="abcdefghijklmnopqrstuvwxyz0123456789_"
+                android:ems="10"
+                android:hint="Username"
+                android:inputType="textPersonName"
+                android:paddingBottom="15dp"
+                android:textColor="@color/colorAccent"
+                android:textColorHint="@color/textColorSec" />
 
-        <Button
-            android:id="@+id/button_ep_savechanges"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="25dp"
-            android:background="@drawable/button_primary"
-            android:fontFamily="@font/rubik_medium"
-            android:text="Save Changes"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white" />
+            <TextView
+                android:id="@+id/textView_username_validation_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
+                android:gravity="right"
+                android:text="This username is  already taken"
+                android:textColor="@android:color/white"
+                android:visibility="gone" />
 
-        <Button
-            android:id="@+id/button_ep_cancel"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/button_secondary"
-            android:text="Cancel"
-            android:textAllCaps="false"
-            android:textColor="@color/textColorSec" />
+            <Button
+                android:id="@+id/button_ep_savechanges"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/button_primary"
+                android:fontFamily="@font/rubik_medium"
+                android:text="Save Changes"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
 
-        <ProgressBar
-            android:id="@+id/progressBar_savingchanges"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="25dp"
-            android:visibility="invisible" />
+            <Button
+                android:id="@+id/button_ep_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/button_secondary"
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/textColorSec" />
 
-    </LinearLayout>
+            <ProgressBar
+                android:id="@+id/progressBar_savingchanges"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:visibility="invisible" />
+
+        </LinearLayout>
+    </ScrollView>
+
 </RelativeLayout>

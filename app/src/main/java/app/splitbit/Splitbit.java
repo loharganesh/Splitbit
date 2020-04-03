@@ -38,6 +38,7 @@ import app.splitbit.GroupSplits.CreateEvent;
 import app.splitbit.GroupSplits.Model.Event;
 import app.splitbit.GroupSplits.View.EventsAdapter;
 import app.splitbit.Profile.Profile;
+import app.splitbit.Settings.Settings;
 
 public class Splitbit extends AppCompatActivity {
 
@@ -53,11 +54,12 @@ public class Splitbit extends AppCompatActivity {
     //Firebase
     private DatabaseReference db;
     private DatabaseReference eventsRef;
-    private ChildEventListener childEventListener;
+    private ValueEventListener valueEventListener;
 
     private FirebaseAuth auth;
     private GoogleSignInClient mGoogleSignInClient;
     private int mEvents = 13;
+
 
 
     private void initActivityUI(){
@@ -85,15 +87,6 @@ public class Splitbit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spitbit);
 
-        // [START config_signin]
-        // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        // [END config_signin]
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         auth = FirebaseAuth.getInstance();
 
         db = FirebaseDatabase.getInstance().getReference().child("splitbit");
@@ -108,7 +101,7 @@ public class Splitbit extends AppCompatActivity {
 
     private void initEventsList(){
 
-        eventsRef.limitToFirst(mEvents).addValueEventListener(new ValueEventListener() {
+        valueEventListener = eventsRef.limitToFirst(mEvents).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
@@ -166,7 +159,7 @@ public class Splitbit extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
 
-            case R.id.item_revoke_access:
+            /*case R.id.item_revoke_access:
 
                 // Google revoke access
                 mGoogleSignInClient.revokeAccess().addOnCompleteListener(this,
@@ -178,11 +171,10 @@ public class Splitbit extends AppCompatActivity {
                             }
                         });
 
-                return true;
+                return true;*/
 
-            case R.id.item_signout:
-                auth.signOut();
-                startActivity(new Intent(Splitbit.this, Signin.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+            case R.id.item_settings:
+                startActivity(new Intent(Splitbit.this, Settings.class));
                 return true;
 
 
@@ -200,9 +192,18 @@ public class Splitbit extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
+        eventsRef.addValueEventListener(valueEventListener);
+
+        //-- Making notification tray empty
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancelAll();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        eventsRef.removeEventListener(valueEventListener);
     }
 }

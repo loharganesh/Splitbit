@@ -10,14 +10,9 @@
         android:icon="@drawable/ic_user"
         android:title="Profile"
         app:showAsAction="always" />
-    <item android:title="Account">
-        <menu>
-            <item
-                android:id="@+id/item_signout"
-                android:title="Sign out" />
-            <item
-                android:id="@+id/item_revoke_access"
-                android:title="Revoke Access" />
-        </menu>
-    </item>
+    <item
+        android:id="@+id/item_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Settings"
+        app:showAsAction="always" />
 </menu>

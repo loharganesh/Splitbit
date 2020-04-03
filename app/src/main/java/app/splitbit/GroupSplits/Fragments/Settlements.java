@@ -42,6 +42,8 @@ public class Settlements extends Fragment implements SwipeRefreshLayout.OnRefres
 
     //-- Firebase
     private DatabaseReference db;
+    private DatabaseReference settementsRef;
+    private ValueEventListener valueEventListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +56,7 @@ public class Settlements extends Fragment implements SwipeRefreshLayout.OnRefres
 
         //-- Firebase
         db = FirebaseDatabase.getInstance().getReference().child("splitbit");
+        settementsRef = db.child("settlements/"+EVENT_ROOM_KEY);
 
         //-- UI
 
@@ -73,7 +76,7 @@ public class Settlements extends Fragment implements SwipeRefreshLayout.OnRefres
 
 
     private void loadSettlements(){
-        db.child("settlements/"+EVENT_ROOM_KEY).addValueEventListener(new ValueEventListener() {
+        valueEventListener = settementsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                 arraylist_settlements.clear();
@@ -117,5 +120,17 @@ public class Settlements extends Fragment implements SwipeRefreshLayout.OnRefres
     @Override
     public void onRefresh() {
         loadSettlements();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        settementsRef.addValueEventListener(valueEventListener);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        settementsRef.removeEventListener(valueEventListener);
     }
 }

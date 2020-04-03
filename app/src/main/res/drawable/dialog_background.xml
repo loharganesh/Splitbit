@@ -3,13 +3,13 @@
     <item>
         <shape>
             <corners
-                android:radius="200dp"
+                android:radius="10dp"
                 />
             <gradient
                 android:centerX="35%"
-                android:centerColor="#1B1B1B"
-                android:startColor="#1B1B1B"
-                android:endColor="#1B1B1B"
+                android:centerColor="#ffffff"
+                android:startColor="#ffffff"
+                android:endColor="#ffffff"
                 android:type="linear"
                 />
             <padding

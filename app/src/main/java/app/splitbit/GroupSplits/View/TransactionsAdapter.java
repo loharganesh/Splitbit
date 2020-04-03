@@ -16,6 +16,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import app.splitbit.Application.Timestamp;
 import app.splitbit.GroupSplits.Model.Transaction;
 import app.splitbit.R;
 
@@ -33,11 +35,13 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         // each data item is just a string in this case
         private TextView textView_transaction_title;
         private TextView textView_transaction_body;
+        private TextView textView_datetime;
 
         public TransactionViewHolder(View v) {
             super(v);
             textView_transaction_title = (TextView) v.findViewById(R.id.textview_transaction_title);
             textView_transaction_body = (TextView) v.findViewById(R.id.textview_transaction_body);
+            textView_datetime = (TextView) v.findViewById(R.id.textview_datetime);
         }
     }
 
@@ -60,6 +64,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 if(dataSnapshot.exists()){
                     String username = dataSnapshot.child("name").getValue().toString();
                     ((TransactionViewHolder)holder).textView_transaction_title.setText(Html.fromHtml(username+" Paid <font color='#ff4180'>"+transaction.getAmount()+" Rs."));
+                    ((TransactionViewHolder)holder).textView_datetime.setText(Timestamp.getDate(transaction.getTimestamp()) +" at "+ Timestamp.getTime(transaction.getTimestamp()));
                 }
             }
 

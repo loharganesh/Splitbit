@@ -1,17 +1,17 @@
 package app.splitbit.GroupSplits.Model;
 
 public class Transaction {
-    private String payer,detail,entryby;
+    private String payer,detail,key;
     private long amount,timestamp;
 
     public Transaction(){
 
     }
 
-    public Transaction(String payer, String detail, String entryby, long amount, long timestamp) {
+    public Transaction(String payer, String detail, String key, long amount, long timestamp) {
         this.payer = payer;
         this.detail = detail;
-        this.entryby = entryby;
+        this.key = key;
         this.amount = amount;
         this.timestamp = timestamp;
     }
@@ -32,12 +32,12 @@ public class Transaction {
         this.detail = detail;
     }
 
-    public String getEntryby() {
-        return entryby;
+    public String getKey() {
+        return key;
     }
 
-    public void setEntryby(String entryby) {
-        this.entryby = entryby;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public long getAmount() {
@@ -55,4 +55,11 @@ public class Transaction {
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
+
+    @Override
+    public boolean equals(@androidx.annotation.Nullable Object obj) {
+        Transaction transaction = (Transaction) obj;
+        return key.matches(transaction.getKey());
+    }
+
 }
