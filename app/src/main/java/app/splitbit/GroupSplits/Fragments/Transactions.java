@@ -75,7 +75,7 @@ public class Transactions extends Fragment {
         recyclerView_transactions = (RecyclerView) view.findViewById(R.id.recyclerview_transactions);
         recyclerView_transactions.setNestedScrollingEnabled(false);
         arraylist_transactions = new ArrayList<>();
-        transactionsAdapter = new TransactionsAdapter(arraylist_transactions, Transactions.this.getContext());
+        transactionsAdapter = new TransactionsAdapter(arraylist_transactions, Transactions.this.getContext(),EVENT_ROOM_ID);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(Transactions.this.getContext());
         layoutManager.setReverseLayout(true);

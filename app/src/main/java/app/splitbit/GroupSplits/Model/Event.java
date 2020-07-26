@@ -1,6 +1,8 @@
 package app.splitbit.GroupSplits.Model;
 
-public class Event {
+import java.util.Comparator;
+
+public class Event implements Comparable<Event>{
     private String key,eventname,eventpicture,eventadmin;
     private long timestamp;
 
@@ -62,4 +64,9 @@ public class Event {
         return key.matches(event.getKey());
     }
 
+
+    @Override
+    public int compareTo(Event o) {
+        return Long.compare(this.getTimestamp(),o.getTimestamp());
+    }
 }

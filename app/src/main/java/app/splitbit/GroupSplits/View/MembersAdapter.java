@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -67,7 +68,12 @@ public class MembersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((MemberViewHolder)holder).textView_amount.setText(member.getAmount()+" Rs.");
         }
 
-        ((MemberViewHolder)holder).textView_username.setText(member.getName());
+        if(member.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+            ((MemberViewHolder)holder).textView_username.setText("You ");
+        }else{
+            ((MemberViewHolder)holder).textView_username.setText(member.getName());
+        }
+
 
         ((MemberViewHolder)holder).itemView.setOnClickListener(new View.OnClickListener() {
             @Override

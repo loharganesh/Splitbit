@@ -22,10 +22,10 @@
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/rubik_medium"
+                android:fontFamily="@font/rubik"
                 android:text="You are paying Rs. "
                 android:textColor="@color/textColorSec"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/edit_amount"
@@ -39,7 +39,7 @@
                 android:inputType="number"
                 android:textColor="@color/colorAccent"
                 android:textColorHint="@color/textColorSec"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <EditText
@@ -54,7 +54,7 @@
             android:inputType="textPersonName"
             android:textColor="@color/colorAccent"
             android:textColorHint="@color/textColorSec"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/button_add_transaction"

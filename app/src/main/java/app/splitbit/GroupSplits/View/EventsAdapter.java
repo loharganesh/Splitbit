@@ -60,9 +60,10 @@ public class EventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return arraylist_events.size();
     }
 
-    public String getLastItemKey(){
-        return arraylist_events.get(arraylist_events.size()-1).getKey();
+    public long getLastItemTimestamp(){
+        return arraylist_events.get(arraylist_events.size()-1).getTimestamp();
     }
+
 
     public void setData(ArrayList<Event> events){
         this.arraylist_events  = events;

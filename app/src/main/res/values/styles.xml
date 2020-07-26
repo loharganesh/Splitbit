@@ -34,7 +34,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/rubik</item>
+        <item name="android:colorBackground">@color/backgroundPrimaryDark</item>
         <item name="android:textColorSecondary">#ffffff</item>
+        <item name="android:textSize">14sp</item>
 
     </style>
 
@@ -52,6 +54,8 @@
     <style name="DialogCustomTheme" parent="android:Theme.Holo.Dialog.NoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
     </style>
 
 

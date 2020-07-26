@@ -4,7 +4,7 @@
     <item android:state_enabled="false">
         <shape>
             <corners
-                android:radius="200dp"
+                android:radius="5dp"
                 />
             <gradient
                 android:centerX="35%"
@@ -25,7 +25,7 @@
     <item android:state_enabled="true">
         <shape>
             <corners
-                android:radius="200dp"
+                android:radius="5dp"
                 />
             <gradient
                 android:centerX="35%"

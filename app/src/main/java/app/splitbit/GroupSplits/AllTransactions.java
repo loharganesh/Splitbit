@@ -41,7 +41,7 @@ public class AllTransactions extends AppCompatActivity {
 
         recyclerView_transactions = (RecyclerView) findViewById(R.id.recyclerview_transactions);
         arraylist_transactions = new ArrayList<>();
-        transactionsAdapter = new TransactionsAdapter(arraylist_transactions,AllTransactions.this);
+        transactionsAdapter = new TransactionsAdapter(arraylist_transactions,AllTransactions.this,EVENT_ROOM_ID);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setReverseLayout(true);

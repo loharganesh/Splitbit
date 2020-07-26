@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/rubik_medium"
             android:text=""
-            android:textColor="@color/colorPrimaryDark"
+            android:textColor="@color/textColorPrimaryDark"
             android:textSize="22sp" />
 
         <TextView
